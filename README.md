@@ -40,7 +40,7 @@ Add additional notes about how to deploy this on a live system
 
 ## Authors
 
-* **noi@gmail.com.com** - *Initial work* - [me](https://github.com/noinarisak)
+* **noi.narisak@gmail.com.com** - *Initial work* - [me](https://github.com/noinarisak)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
