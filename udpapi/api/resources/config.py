@@ -17,11 +17,19 @@ class ConfigSchema(ma.ModelSchema):
 class ConfigResource(Resource):
     """Single object resource
     """
-    method_decorators = [jwt_required]
+    # method_decorators = [jwt_required]
 
     def get(self, config_id):
         schema = ConfigSchema()
+        print('config_id:' + str(config_id))
         config = Config.query.get_or_404(config_id)
+        return {"config": schema.dump(config).data}
+
+    def get(self, udp_subdomain, demo_app_name):
+        schema = ConfigSchema()
+        # print('udp_subdomain' + udp_subdomain)
+        # print('demo_app_name' + demo_app_name)
+        config = Config.query.filter_by(udp_subdomain=udp_subdomain).first_or_404()
         return {"config": schema.dump(config).data}
 
     def put(self, config_id):
@@ -44,7 +52,7 @@ class ConfigResource(Resource):
 class ConfigList(Resource):
     """Creation and get_all
     """
-    method_decorators = [jwt_required]
+    # method_decorators = [jwt_required]
 
     def get(self):
         schema = ConfigSchema(many=True)

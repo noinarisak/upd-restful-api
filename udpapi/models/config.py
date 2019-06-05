@@ -6,6 +6,7 @@ class Config(db.Model):
     """
     id = db.Column(db.Integer, primary_key=True)
     udp_subdomain = db.Column(db.String(80), nullable=False)
+    demo_app_name = db.Column(db.String(255), nullable=False)
     okta_api_key = db.Column(db.String(255), nullable=False)
     okta_org_name = db.Column(db.String(255), nullable=False)
 
