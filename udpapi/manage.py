@@ -21,6 +21,8 @@ def init():
     """
     from udpapi.extensions import db
     from udpapi.models import User
+    click.echo("drop database")
+    db.drop_all()
     click.echo("create database")
     db.create_all()
     click.echo("done")
@@ -35,6 +37,13 @@ def init():
     db.session.add(user)
     db.session.commit()
     click.echo("created user admin")
+
+
+@cli.command("drop_db")
+def drop_db():
+    """Drops the db tables."""
+    click.echo("drop database")
+    db.drop_all()
 
 
 if __name__ == "__main__":

@@ -10,9 +10,22 @@ services:
     env_file:
       - ./.flaskenv
     environment:
-      - DATABASE_URI=sqlite:////db/udpapi.db
+      - DATABASE_URL=postgres://postgres:postgres@web-db:5432/users_dev
     volumes:
       - ./udpapi:/code/udpapi
       - ./db/:/db/
     ports:
       - "5000:5000"
+    depends_on:
+      - web-db
+
+  web-db:
+    container_name: web-db
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    ports:
+      - 5435:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres

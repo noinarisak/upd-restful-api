@@ -57,7 +57,7 @@ stop: ## Stop running application stack
 .PHONY: tty-web
 tty-web: ## Interactive mode to container
 	@echo "+ $@"
-	@docker exec -it upd-restful-api_web_1 bash
+	@docker exec -it udp-restful-api_web_1 bash
 
 .PHONY: deploy
 deploy: ## Deploy to Heroku container

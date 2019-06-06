@@ -1,6 +1,6 @@
 # Custom ignore
 *.flaskenv
-# db/ #
+db/
 *.bak
 # End Custom ignore
 
