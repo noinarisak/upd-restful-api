@@ -5,7 +5,8 @@ services:
   web:
     image: udpapi
     build: .
-    command: udpapi run -h 0.0.0.0
+    # command: udpapi run -h 0.0.0.0
+    command: python udpapi/manage.py run -h 0.0.0.0
     env_file:
       - ./.flaskenv
     environment:

@@ -59,6 +59,11 @@ tty-web: ## Interactive mode to container
 	@echo "+ $@"
 	@docker exec -it upd-restful-api_web_1 bash
 
+.PHONY: deploy
+deploy: ## Deploy to Heroku container
+	@echo "+ $@"
+	@git push -f heroku master
+
 .PHONY: help
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-16s\033[0m %s\n", $$1, $$2}'

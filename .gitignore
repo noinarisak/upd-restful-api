@@ -1,6 +1,7 @@
 # Custom ignore
 *.flaskenv
-db/
+# db/ #
+*.bak
 # End Custom ignore
 
 # Created by https://www.gitignore.io/api/git,vim,terraform,visualstudiocode,python
