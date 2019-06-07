@@ -60,9 +60,14 @@ tty-web: ## Interactive mode to container
 	@docker exec -it udp-restful-api_web_1 bash
 
 .PHONY: deploy
-deploy: ## Deploy to Heroku container
+deploy: ## Deploy to Heroku
 	@echo "+ $@"
 	@git push -f heroku master
+
+.PHONY: deploy-all
+deploy-all: deploy ## Deploy and recreate tables in Heroku PostgesQL
+	@echo "+ $@"
+	@heroku run python udpapi/manage.py init
 
 .PHONY: help
 help:
