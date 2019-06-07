@@ -1,0 +1,4 @@
+{
+    "udp_subdomain": "example_1",
+    "context": "{'clientId': 'abcd15', 'issuer': 'http://example.okta.com', 'status':'ready'}"
+}
