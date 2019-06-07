@@ -5,7 +5,7 @@
 # Desc:
 #
 # ie.
-# $./seed-updapi.sh
+# $./seed-updapi.sh http://localhost:5000
 #
 
 set -o errexit
@@ -19,6 +19,8 @@ __file="${__dir}/$(basename "${BASH_SOURCE[0]}")"
 __base="$(basename ${__file} .sh)"
 __root="$(cd "$(dirname "${__dir}")" && pwd)" # <-- change this as it depends on your app
 
+arg_api_host="${1:-http://localhost:5000}"
+
 # Helpers
 red=$'\e[1;31m'
 grn=$'\e[1;32m'
@@ -28,21 +30,24 @@ mag=$'\e[1;35m'
 cyn=$'\e[1;36m'
 end=$'\e[0m'
 
-
-TARGET_ENDPOINT=http://localhost:5000/api/configs
+API_ENDPOINT=${arg_api_host}/api/configs
 
 function display() {
     printf "%b\n" "${red}==== ${1:-'NO_LABEL'} ====${end}"
 }
 
 main() {
-    display "Seeding TARGET_ENDPOINT: ${TARGET_ENDPOINT}"
-    curl -d "@example1.json" -H "Content-Type: application/json" -X POST ${TARGET_ENDPOINT}
-    curl -d "@example2.json" -H "Content-Type: application/json" -X POST ${TARGET_ENDPOINT}
-    curl -d "@example3.json" -H "Content-Type: application/json" -X POST ${TARGET_ENDPOINT}
+    display "Seeding API_ENDPOINT: ${API_ENDPOINT}"
+    curl -d "@example1.json" -H "Content-Type: application/json" -X POST ${API_ENDPOINT}
+    curl -d "@example2.json" -H "Content-Type: application/json" -X POST ${API_ENDPOINT}
+    curl -d "@example3.json" -H "Content-Type: application/json" -X POST ${API_ENDPOINT}
 
-    display "Config list"
-    curl -X GET ${TARGET_ENDPOINT}
+    display "Config list: ${API_ENDPOINT}"
+    curl -X GET ${API_ENDPOINT}
+
+    display "GET .well-known/default-setting"
+    SUB_DOMAIN_EXAMPLE_1_ENDPOINT=${API_ENDPOINT}/example_1/something/.well-known/default-setting
+    curl -X GET ${SUB_DOMAIN_EXAMPLE_1_ENDPOINT}
 }
 
 main
