@@ -7,8 +7,8 @@ DEFAULT_PAGE_NUMBER = 1
 
 
 def paginate(query, schema):
-    page = request.args.get('page', DEFAULT_PAGE_NUMBER)
-    per_page = request.args.get('page_size', DEFAULT_PAGE_SIZE)
+    page = request.args.get('page', default=DEFAULT_PAGE_NUMBER, type=int)
+    per_page = request.args.get('page_size', default=DEFAULT_PAGE_SIZE, type=int)
     page_obj = query.paginate(page=page, per_page=per_page)
     next = url_for(
         request.endpoint,
