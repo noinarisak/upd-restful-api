@@ -33,7 +33,7 @@ class ConfigResource(Resource):
         return {"config": schema.dump(config).data}
 
     def put(self, config_id):
-        schema = UserSchema(partial=True)
+        schema = ConfigSchema(partial=True)
         config = Config.query.get_or_404(config_id)
         config, errors = schema.load(request.json, instance=config)
         if errors:
