@@ -34,6 +34,7 @@ class ConfigResource(Resource):
 
     def put(self, config_id):
         schema = ConfigSchema(partial=True)
+        print('config_id:' + str(config_id))
         config = Config.query.get_or_404(config_id)
         config, errors = schema.load(request.json, instance=config)
         if errors:
