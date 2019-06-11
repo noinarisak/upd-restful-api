@@ -1,8 +1,6 @@
-import json
-
-from flask import request
+from flask import request, make_response
 from flask_restful import Resource
-from flask_jwt_extended import jwt_required
+# from flask_jwt_extended import jwt_required
 
 from udpapi.models import Config
 from udpapi.extensions import ma, db
@@ -57,7 +55,6 @@ class ConfigBySubdomainAndAppName(Resource):
         config = Config.query.filter_by(udp_subdomain=subdomain, demo_app_name=app_name).first_or_404()
         return {"config": schema.dump(config).data}, 200, {'Access-Control-Allow-Origin': '*'}
 
-
     def put(self, subdomain, app_name):
         schema = ConfigSchema(partial=True)
         # print('udp_subdomain' + subdomain)
@@ -70,6 +67,24 @@ class ConfigBySubdomainAndAppName(Resource):
         db.session.commit()
 
         return {"msg": "config updated", "config": schema.dump(config).data}, 200, {'Access-Control-Allow-Origin': '*'}
+
+
+class ConfigSecret(Resource):
+    """Single object resource
+    """
+    # method_decorators = [jwt_required]
+
+    def get(self, subdomain, app_name):
+        # print('udp_subdomain' + udp_subdomain)
+        # print('demo_app_name' + demo_app_name)
+        config = Config.query.filter_by(udp_subdomain=subdomain, demo_app_name=app_name).first_or_404()
+
+        # Over write flask_restful default "{Content-Type: application/json}" HTTP response to "text/dotenv"
+        output = "# WARNING: These values are HIGHLY SENSITIVE and MUST only be used by server side APIs!\n"
+        output += "OKTA_API_TOKEN={token}".format(token=config.okta_api_token)
+        response = make_response(output)
+        response.headers['Content-Type'] = 'text/dotenv'
+        return response
 
 
 class ConfigList(Resource):
