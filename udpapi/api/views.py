@@ -2,9 +2,9 @@ from flask import Blueprint
 from flask_restful import Api
 
 from udpapi.api.resources import UserResource, UserList
-from udpapi.api.resources import ConfigResource, ConfigList, ConfigBySubdomainAndAppName
+from udpapi.api.resources import ConfigResource, ConfigList
+from udpapi.api.resources import ConfigBySubdomainAndAppName, ConfigSecret
 from udpapi.api.resources import NoopResource
-
 
 blueprint = Blueprint('api', __name__, url_prefix='/api')
 api = Api(blueprint)
@@ -17,3 +17,4 @@ api.add_resource(ConfigBySubdomainAndAppName,
                 '/configs/<string:subdomain>/<string:app_name>/.well-known/default-setting',
                 '/configs/<string:subdomain>/<string:app_name>')
 api.add_resource(ConfigList, '/configs')
+api.add_resource(ConfigSecret, '/configs/<string:subdomain>/<string:app_name>/secret')
