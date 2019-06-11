@@ -5,6 +5,7 @@ from udpapi.app import create_app
 
 app = create_app()
 
+
 def create_udpapi(info):
     return create_app(cli=True)
 
@@ -43,7 +44,7 @@ def init():
 def drop_db():
     """Drops the db tables."""
     click.echo("drop database")
-    db.drop_all()
+    # db.drop_all()
 
 
 if __name__ == "__main__":
