@@ -103,6 +103,10 @@ class ConfigList(Resource):
         if errors:
             return errors, 422
 
+        config_exist = Config.query.filter_by(udp_subdomain=config.udp_subdomain, demo_app_name=config.demo_app_name).first()
+        if config_exist is not None:
+            return {"msg": "config already exist"}, 409
+
         db.session.add(config)
         db.session.commit()
 
