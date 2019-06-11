@@ -1,5 +1,3 @@
-import os
-
 from flask import Flask
 
 from udpapi import auth, api
@@ -36,9 +34,3 @@ def register_blueprints(app):
     """
     app.register_blueprint(auth.views.blueprint)
     app.register_blueprint(api.views.blueprint)
-
-# if __name__ == '__main__':
-#     if os.environ.get('PORT') is not None:
-#         app.run(debug=True, host='0.0.0.0', port=os.environ.get('PORT'))
-#     else:
-#         app.run(debug=True, host='0.0.0.0')

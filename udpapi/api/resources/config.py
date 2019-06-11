@@ -25,13 +25,6 @@ class ConfigResource(Resource):
         config = Config.query.get_or_404(config_id)
         return {"config": schema.dump(config).data}
 
-    def get(self, udp_subdomain, demo_app_name):
-        schema = ConfigSchema()
-        # print('udp_subdomain' + udp_subdomain)
-        # print('demo_app_name' + demo_app_name)
-        config = Config.query.filter_by(udp_subdomain=udp_subdomain).first_or_404()
-        return {"config": schema.dump(config).data}
-
     def put(self, config_id):
         schema = ConfigSchema(partial=True)
         print('config_id:' + str(config_id))
@@ -48,6 +41,32 @@ class ConfigResource(Resource):
         db.session.commit()
 
         return {"msg": "config deleted"}
+
+
+class ConfigBySubdomainAndAppName(Resource):
+    """Single object resource
+    """
+    # method_decorators = [jwt_required]
+
+    def get(self, subdomain, app_name):
+        schema = ConfigSchema()
+        # print('udp_subdomain' + udp_subdomain)
+        # print('demo_app_name' + demo_app_name)
+        config = Config.query.filter_by(udp_subdomain=subdomain, demo_app_name=app_name).first_or_404()
+        return {"config": schema.dump(config).data}
+
+    def put(self, subdomain, app_name):
+        schema = ConfigSchema(partial=True)
+        # print('udp_subdomain' + subdomain)
+        # print('demo_app_name' + app_name)
+        config = Config.query.filter_by(udp_subdomain=subdomain, demo_app_name=app_name).first_or_404()
+        config, errors = schema.load(request.json, instance=config)
+        if errors:
+            return errors, 422
+
+        db.session.commit()
+
+        return {"msg": "config updated", "config": schema.dump(config).data}
 
 
 class ConfigList(Resource):
