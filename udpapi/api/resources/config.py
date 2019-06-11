@@ -1,3 +1,5 @@
+import json
+
 from flask import request
 from flask_restful import Resource
 from flask_jwt_extended import jwt_required
@@ -23,7 +25,7 @@ class ConfigResource(Resource):
         schema = ConfigSchema()
         print('config_id:' + str(config_id))
         config = Config.query.get_or_404(config_id)
-        return {"config": schema.dump(config).data}
+        return {"config": schema.dump(config).data}, 200, {'Access-Control-Allow-Origin': '*'}
 
     def put(self, config_id):
         schema = ConfigSchema(partial=True)
@@ -33,7 +35,7 @@ class ConfigResource(Resource):
         if errors:
             return errors, 422
 
-        return {"msg": "config updated", "config": schema.dump(config).data}
+        return {"msg": "config updated", "config": schema.dump(config).data}, 200, {'Access-Control-Allow-Origin': '*'}
 
     def delete(self, config_id):
         config = Config.query.get_or_404(config_id)
@@ -53,7 +55,8 @@ class ConfigBySubdomainAndAppName(Resource):
         # print('udp_subdomain' + udp_subdomain)
         # print('demo_app_name' + demo_app_name)
         config = Config.query.filter_by(udp_subdomain=subdomain, demo_app_name=app_name).first_or_404()
-        return {"config": schema.dump(config).data}
+        return {"config": schema.dump(config).data}, 200, {'Access-Control-Allow-Origin': '*'}
+
 
     def put(self, subdomain, app_name):
         schema = ConfigSchema(partial=True)
@@ -66,7 +69,7 @@ class ConfigBySubdomainAndAppName(Resource):
 
         db.session.commit()
 
-        return {"msg": "config updated", "config": schema.dump(config).data}
+        return {"msg": "config updated", "config": schema.dump(config).data}, 200, {'Access-Control-Allow-Origin': '*'}
 
 
 class ConfigList(Resource):
@@ -77,7 +80,7 @@ class ConfigList(Resource):
     def get(self):
         schema = ConfigSchema(many=True)
         query = Config.query
-        return paginate(query, schema)
+        return paginate(query, schema), 200, {'Access-Control-Allow-Origin': '*'}
 
     def post(self):
         schema = ConfigSchema()
@@ -88,4 +91,4 @@ class ConfigList(Resource):
         db.session.add(config)
         db.session.commit()
 
-        return {"msg": "config created", "config": schema.dump(config).data}, 201
+        return {"msg": "config created", "config": schema.dump(config).data}, 201, {'Access-Control-Allow-Origin': '*'}
