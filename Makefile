@@ -60,9 +60,9 @@ tty-web: ## Interactive mode to container
 	@docker exec -it udp-restful-api_web_1 bash
 
 .PHONY: deploy
-deploy: ## Deploy to Heroku
+deploy: ## Deploy to Heroku staging instances
 	@echo "+ $@"
-	@git push -f heroku master
+	@git push -f heroku-stg master
 
 .PHONY: deploy-all
 deploy-all: deploy ## Deploy and recreate tables in Heroku PostgesQL
