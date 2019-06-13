@@ -67,7 +67,7 @@ deploy: ## Deploy to Heroku staging instances
 .PHONY: deploy-all
 deploy-all: deploy ## Deploy and recreate tables in Heroku PostgesQL
 	@echo "+ $@"
-	@heroku run python udpapi/manage.py init
+	@heroku run python udpapi/manage.py init --app stg-safe-escarpment-74832
 
 .PHONY: help
 help:
