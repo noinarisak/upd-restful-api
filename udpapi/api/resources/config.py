@@ -81,7 +81,8 @@ class ConfigSecret(Resource):
 
         # Over write flask_restful default "{Content-Type: application/json}" HTTP response to "text/dotenv"
         output = "# WARNING: These values are HIGHLY SENSITIVE and MUST only be used by server side APIs!\n"
-        output += "OKTA_API_TOKEN={token}".format(token=config.okta_api_token)
+        output += "OKTA_API_TOKEN={token}\n".format(token=config.okta_api_token)
+        output += "CLIENT_SECERT={secret}\n".format(secret=config.client_secret)
         response = make_response(output)
         response.headers['Content-Type'] = 'text/dotenv'
         return response
