@@ -1,6 +1,7 @@
 from .user import UserResource, UserList
 from .config import ConfigResource, ConfigList
 from .config import ConfigBySubdomainAndAppName, ConfigSecret
+from .config import ConfigUserList
 from .noop import NoopResource
 
 __all__ = [
@@ -9,6 +10,7 @@ __all__ = [
     'ConfigResource',
     'ConfigBySubdomainAndAppName',
     'ConfigList',
+    'ConfigUserList',
     'ConfigSecret',
     'NoopResource'
 ]
