@@ -19,28 +19,28 @@ class ConfigResource(Resource):
     """
     # method_decorators = [jwt_required]
 
-    def get(self, config_id):
+    def get(self, uuid):
         schema = ConfigSchema()
-        print('config_id:' + str(config_id))
-        config = Config.query.get_or_404(config_id)
+        print('uuid:' + str(uuid))
+        config = Config.query.get_or_404(uuid)
         return {"config": schema.dump(config).data}, 200, {'Access-Control-Allow-Origin': '*'}
 
-    def put(self, config_id):
-        schema = ConfigSchema(partial=True)
-        print('config_id:' + str(config_id))
-        config = Config.query.get_or_404(config_id)
-        config, errors = schema.load(request.json, instance=config)
-        if errors:
-            return errors, 422
+    # def put(self, config_id):
+    #     schema = ConfigSchema(partial=True)
+    #     print('config_id:' + str(config_id))
+    #     config = Config.query.get_or_404(config_id)
+    #     config, errors = schema.load(request.json, instance=config)
+    #     if errors:
+    #         return errors, 422
 
-        return {"msg": "config updated", "config": schema.dump(config).data}, 200, {'Access-Control-Allow-Origin': '*'}
+    #     return {"msg": "config updated", "config": schema.dump(config).data}, 200, {'Access-Control-Allow-Origin': '*'}
 
-    def delete(self, config_id):
-        config = Config.query.get_or_404(config_id)
-        db.session.delete(config)
-        db.session.commit()
+    # def delete(self, config_id):
+    #     config = Config.query.get_or_404(config_id)
+    #     db.session.delete(config)
+    #     db.session.commit()
 
-        return {"msg": "config deleted"}
+    #     return {"msg": "config deleted"}
 
 
 class ConfigBySubdomainAndAppName(Resource):
@@ -86,6 +86,18 @@ class ConfigSecret(Resource):
         response = make_response(output)
         response.headers['Content-Type'] = 'text/dotenv'
         return response
+
+
+class ConfigUserList(Resource):
+    """Get_all users
+    """
+    # method_decorators = [jwt_required]
+
+    def get(self, user_id):
+        print("user_id: " + user_id)
+        schema = ConfigSchema(many=True)
+        query = Config.query.filter_by(user_id=user_id)
+        return paginate(query, schema), 200, {'Access-Control-Allow-Origin': '*'}
 
 
 class ConfigList(Resource):
