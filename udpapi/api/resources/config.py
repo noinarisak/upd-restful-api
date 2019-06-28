@@ -68,6 +68,15 @@ class ConfigBySubdomainAndAppName(Resource):
 
         return {"msg": "config updated", "config": schema.dump(config).data}, 200, {'Access-Control-Allow-Origin': '*'}
 
+    def delete(self, subdomain, app_name):
+        print('udp_subdomain' + subdomain)
+        print('demo_app_name' + app_name)
+        config = Config.query.filter_by(udp_subdomain=subdomain, demo_app_name=app_name).first_or_404()
+        db.session.delete(config)
+        db.session.commit()
+
+        return {"msg": "config deleted"}, 204, {'Access-Control-Allow-Origin': '*'}
+
 
 class ConfigSecret(Resource):
     """Single object resource
